@@ -1,5 +1,6 @@
-from flask import jsonify, request,Blueprint
-from handler.clienthandler.handler import emit_loc_settings
+from flask import jsonify, request,Blueprint, redirect
+from handler.clienthandler.handler import emit_loc_settings, emit_battery_settings
+import boto3
 
 client_blueprint = Blueprint("client_blueprint", __name__)
 
@@ -11,5 +12,7 @@ def handle_geosettings():
 
 @client_blueprint.route("/emitbatsettings", methods=["POST"])
 def handle_batterysettings():
-    response = emit_loc_settings(request.json)
+    response = emit_battery_settings(request.json)
     return jsonify(response)
+
+

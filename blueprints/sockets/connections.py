@@ -1,6 +1,6 @@
 from myapp.socket import socketio
 from flask import request
-from handler.sockethandler.handler import socket_intial_connection, leave_room_client, broadcast_liveloc
+from handler.sockethandler.handler import socket_intial_connection, leave_room_client, broadcast_liveloc, search_device
 
 @socketio.on('LOCATION_TRACKING')
 def getLocations(message):
@@ -10,9 +10,12 @@ def getLocations(message):
 def getBatteryTrack(message):
     print(message)
 
+@socketio.on('SEARCH_DEVICE')
+def searchDevice(message):
+    search_device(message, request.sid, request.headers)
+
 @socketio.on('connect')
 def connect():
-    print("connect", request.sid)
     socket_intial_connection(request.sid, request.headers)
 
 @socketio.on('disconnect')
